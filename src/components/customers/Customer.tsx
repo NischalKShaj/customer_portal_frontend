@@ -38,13 +38,16 @@ const Customer: React.FC = () => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`http://localhost:4000/customer`, {
-        params: {
-          search: searchTerm,
-          age: ageFilter,
-          page: currentPageNumber,
-        },
-      });
+      const response = await axios.get(
+        `https://customer-portal-backend-w1t4.onrender.com/customer`,
+        {
+          params: {
+            search: searchTerm,
+            age: ageFilter,
+            page: currentPageNumber,
+          },
+        }
+      );
       if (response.status === 200) {
         setTableData(response.data.data);
         setIsError(false);
@@ -68,13 +71,16 @@ const Customer: React.FC = () => {
       try {
         setIsLoading(true);
         setIsError(false);
-        const response = await axios.get(`http://localhost:4000/customer`, {
-          params: {
-            search: query,
-            age: ageFilter,
-            page: 1,
-          },
-        });
+        const response = await axios.get(
+          `https://customer-portal-backend-w1t4.onrender.com/customer`,
+          {
+            params: {
+              search: query,
+              age: ageFilter,
+              page: 1,
+            },
+          }
+        );
         if (response.status === 200) {
           setTableData(response.data.data);
         }
@@ -99,13 +105,16 @@ const Customer: React.FC = () => {
     if (pageNumber < 1) return;
     setCurrentPageNumber(pageNumber);
     try {
-      const response = await axios.get(`http://localhost:4000/customer`, {
-        params: {
-          page: pageNumber,
-          search: searchTerm,
-          age: ageFilter,
-        },
-      });
+      const response = await axios.get(
+        `https://customer-portal-backend-w1t4.onrender.com/customer`,
+        {
+          params: {
+            page: pageNumber,
+            search: searchTerm,
+            age: ageFilter,
+          },
+        }
+      );
       if (response.status === 200) {
         setTableData(response.data.data);
       }
