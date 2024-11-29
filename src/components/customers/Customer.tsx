@@ -120,151 +120,163 @@ const Customer: React.FC = () => {
   };
 
   return (
-    <Card className="max-w-7xl mx-auto mt-8 p-6 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-6">
-        <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
-          Customer Data
-        </h2>
-        <div className="flex flex-wrap gap-4 items-center w-full sm:w-auto">
-          <div className="relative w-full sm:w-72">
-            <HiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" />
-            <TextInput
-              id="table-search"
-              type="text"
-              placeholder="Search customers..."
-              value={searchTerm}
-              onChange={searchChange}
-              className="pl-10 w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-            />
+    <div className="w-full min-h-screen p-4 bg-gray-50 dark:bg-gray-900">
+      <Card className="w-full max-w-7xl mx-auto">
+        <div className="space-y-6">
+          {/* Header Section */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+              Customer Data
+            </h2>
+            <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-4">
+              <div className="relative w-full sm:w-72">
+                <HiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
+                <TextInput
+                  id="table-search"
+                  type="text"
+                  placeholder="Search customers..."
+                  value={searchTerm}
+                  onChange={searchChange}
+                  className="pl-10 w-full"
+                  sizing="md"
+                />
+              </div>
+              <Select
+                id="age-filter"
+                value={ageFilter}
+                onChange={handleAgeFilterChange}
+                className="w-full sm:w-56"
+              >
+                <option value="">All Ages</option>
+                <option value="0-18">0-18</option>
+                <option value="19-30">19-30</option>
+                <option value="31-50">31-50</option>
+                <option value="51+">51+</option>
+              </Select>
+            </div>
           </div>
-          <Select
-            id="age-filter"
-            value={ageFilter}
-            onChange={handleAgeFilterChange}
-            className="w-full sm:w-56 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="">All Ages</option>
-            <option value="0-18">0-18</option>
-            <option value="19-30">19-30</option>
-            <option value="31-50">31-50</option>
-            <option value="51+">51+</option>
-          </Select>
-        </div>
-      </div>
-      <div className="relative overflow-x-auto rounded-lg shadow-md">
-        {isLoading ? (
-          <div className="py-10">
-            <Table className="min-w-full text-sm text-gray-700 dark:text-gray-300">
-              <Table.Head>
-                <Table.HeadCell className="text-center px-4 py-2">
-                  Sl. No.
-                </Table.HeadCell>
-                <Table.HeadCell>Name</Table.HeadCell>
-                <Table.HeadCell className="text-center px-4 py-2">
-                  Date of Birth
-                </Table.HeadCell>
-                <Table.HeadCell>Email</Table.HeadCell>
-                <Table.HeadCell className="text-center px-4 py-2">
-                  Phone Number
-                </Table.HeadCell>
-              </Table.Head>
-              <Table.Body>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Table.Row
-                    key={index}
-                    className="bg-white dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <Table.Cell className="text-center px-4 py-2">
-                      <Skeleton />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Skeleton />
-                    </Table.Cell>
-                    <Table.Cell className="text-center px-4 py-2">
-                      <Skeleton />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <Skeleton />
-                    </Table.Cell>
-                    <Table.Cell className="text-center px-4 py-2">
-                      <Skeleton />
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
-          </div>
-        ) : isError ? (
-          <div className="flex justify-center items-center py-10">
-            <p className="text-gray-500 dark:text-gray-400">
-              Failed to fetch data. Please try again.
-            </p>
-          </div>
-        ) : tableData && tableData.length > 0 ? (
-          <Table className="min-w-full text-sm text-gray-700 dark:text-gray-300">
-            <Table.Head>
-              <Table.HeadCell className="text-center px-4 py-2">
-                Sl. No.
-              </Table.HeadCell>
-              <Table.HeadCell>Name</Table.HeadCell>
-              <Table.HeadCell className="text-center px-4 py-2">
-                Date of Birth
-              </Table.HeadCell>
-              <Table.HeadCell>Email</Table.HeadCell>
-              <Table.HeadCell className="text-center px-4 py-2">
-                Phone Number
-              </Table.HeadCell>
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {tableData.map((item, index) => (
-                <Table.Row
-                  key={item.id}
-                  className="bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-700"
-                >
-                  <Table.Cell className="text-center px-4 py-2 font-medium text-gray-900 dark:text-white">
-                    {index + 1}
-                  </Table.Cell>
-                  <Table.Cell className="px-4 py-2">{item.name}</Table.Cell>
-                  <Table.Cell className="text-center px-4 py-2">
-                    {item.dob}
-                  </Table.Cell>
-                  <Table.Cell className="px-4 py-2">{item.email}</Table.Cell>
-                  <Table.Cell className="text-center px-4 py-2">
-                    {item.phoneNumber}
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        ) : (
-          <div className="flex justify-center items-center py-10">
-            <p className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-              <HiSearch className="w-6 h-6" />
-              No matching results found.
-            </p>
-          </div>
-        )}
-      </div>
 
-      {/* Pagination */}
-      {tableData && tableData.length > 0 && (
-        <div className="flex flex-wrap gap-4 mt-6 justify-center items-center">
-          <button
-            onClick={() => handlePagination(currentPageNumber - 1)}
-            disabled={currentPageNumber <= 1}
-            className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed transition"
-          >
-            Previous
-          </button>
-          <button
-            onClick={() => handlePagination(currentPageNumber + 1)}
-            className="px-4 py-2 bg-blue-500 text-white rounded transition hover:bg-blue-600"
-          >
-            Next
-          </button>
+          {/* Table Section */}
+          <div className="w-full overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+            {isLoading ? (
+              <div className="min-w-full">
+                <Table>
+                  <Table.Head>
+                    <Table.HeadCell className="text-center whitespace-nowrap">
+                      Sl. No.
+                    </Table.HeadCell>
+                    <Table.HeadCell className="whitespace-nowrap">
+                      Name
+                    </Table.HeadCell>
+                    <Table.HeadCell className="text-center whitespace-nowrap">
+                      Date of Birth
+                    </Table.HeadCell>
+                    <Table.HeadCell className="whitespace-nowrap">
+                      Email
+                    </Table.HeadCell>
+                    <Table.HeadCell className="text-center whitespace-nowrap">
+                      Phone Number
+                    </Table.HeadCell>
+                  </Table.Head>
+                  <Table.Body>
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Table.Row key={index}>
+                        <Table.Cell className="text-center">
+                          <Skeleton />
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Skeleton />
+                        </Table.Cell>
+                        <Table.Cell className="text-center">
+                          <Skeleton />
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Skeleton />
+                        </Table.Cell>
+                        <Table.Cell className="text-center">
+                          <Skeleton />
+                        </Table.Cell>
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
+                </Table>
+              </div>
+            ) : isError ? (
+              <div className="flex justify-center items-center p-8">
+                <p className="text-gray-500 dark:text-gray-400">
+                  Failed to fetch data. Please try again.
+                </p>
+              </div>
+            ) : tableData && tableData.length > 0 ? (
+              <div className="min-w-full">
+                <Table>
+                  <Table.Head>
+                    <Table.HeadCell className="text-center whitespace-nowrap">
+                      Sl. No.
+                    </Table.HeadCell>
+                    <Table.HeadCell className="whitespace-nowrap">
+                      Name
+                    </Table.HeadCell>
+                    <Table.HeadCell className="text-center whitespace-nowrap">
+                      Date of Birth
+                    </Table.HeadCell>
+                    <Table.HeadCell className="whitespace-nowrap">
+                      Email
+                    </Table.HeadCell>
+                    <Table.HeadCell className="text-center whitespace-nowrap">
+                      Phone Number
+                    </Table.HeadCell>
+                  </Table.Head>
+                  <Table.Body className="divide-y">
+                    {tableData.map((item, index) => (
+                      <Table.Row key={item.id}>
+                        <Table.Cell className="text-center font-medium">
+                          {index + 1}
+                        </Table.Cell>
+                        <Table.Cell>{item.name}</Table.Cell>
+                        <Table.Cell className="text-center">
+                          {item.dob}
+                        </Table.Cell>
+                        <Table.Cell>{item.email}</Table.Cell>
+                        <Table.Cell className="text-center">
+                          {item.phoneNumber}
+                        </Table.Cell>
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
+                </Table>
+              </div>
+            ) : (
+              <div className="flex justify-center items-center p-8">
+                <p className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                  <HiSearch className="w-6 h-6" />
+                  No matching results found.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Pagination Section */}
+          {tableData && tableData.length > 0 && (
+            <div className="flex justify-center gap-4 pt-4">
+              <button
+                onClick={() => handlePagination(currentPageNumber - 1)}
+                disabled={currentPageNumber <= 1}
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => handlePagination(currentPageNumber + 1)}
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
-      )}
-    </Card>
+      </Card>
+    </div>
   );
 };
 
